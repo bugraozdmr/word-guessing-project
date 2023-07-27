@@ -11,7 +11,7 @@ public class game {
     public game() {
         Scanner scanner=new Scanner(System.in);
 
-        System.out.print("What will you going to study : ");
+        System.out.print("What will you study : ");
         this.lesson = scanner.nextLine();
     }
 
