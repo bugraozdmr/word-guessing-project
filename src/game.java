@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.*;
 
-public class game {
+public class game implements Serializable {
 
     private String lesson;
 
@@ -11,7 +12,7 @@ public class game {
     public game() {
         Scanner scanner=new Scanner(System.in);
 
-        System.out.print("What will you study : ");
+        System.out.print("What will you going to study : ");
         this.lesson = scanner.nextLine();
     }
 
@@ -43,8 +44,41 @@ public class game {
             linkedHashMap.put(a,b);
 
             i++;
+
+
+        }
+
+        saveWordsToFile();
+    }
+
+    public void saveWordsToFile() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("words.bin"))) {
+
+            out.writeObject(linkedHashMap);
+            System.out.println("Kelimeler başarıyla dosyaya kaydedildi!");
+
+        } catch (IOException e) {
+            System.out.println("Kelimeler dosyaya kaydedilirken IOException oluştu.");
         }
     }
+
+    public void loadWordsFromFile() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("words.bin"))) {
+
+            linkedHashMap = (LinkedHashMap<String, String>) in.readObject();
+            System.out.println("Kelimeler başarıyla dosyadan yüklendi!");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Dosya bulunamadı");
+        } catch (IOException e) {
+            System.out.println("Kelimeler dosyadan yüklenirken IOException oluştu.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Sınıf bulunamadı");
+        }
+    }
+
+
+
 
     public String getLesson() {
         return lesson;
